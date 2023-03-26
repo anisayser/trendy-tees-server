@@ -21,3 +21,8 @@ module.exports.deleteCartProductByIdServices = async (id) => {
     const result = await Cart.deleteOne({ _id: id });
     return result;
 }
+
+module.exports.deleteAllCartProductsServices = async (email) => {
+    const result = await Cart.deleteMany({ email: email });
+    return result;
+}

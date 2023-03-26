@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 //Product Schema
 const categorySchema = mongoose.Schema({
     title: {
@@ -9,6 +10,10 @@ const categorySchema = mongoose.Schema({
         unique: true,
         minLength: [3, "Category title must be at least 3 charecters."],
         maxLength: [20, "Category title must be between 20 charecters."],
+    },
+
+    slug: {
+        type: String,
     },
 
     description: {
@@ -23,6 +28,18 @@ const categorySchema = mongoose.Schema({
     }
 }, { timestamps: true });
 
+
+categorySchema.pre("save", function (next) {
+    if (this.title) {
+        let modifiedTitleForSlug = this.title;
+        if (this.title.includes("&")) {
+            modifiedTitleForSlug = modifiedTitleForSlug.replace(/&/g, 'and');
+        }
+        this.title.replace(/&/g, "and");
+        this.slug = modifiedTitleForSlug.toLowerCase()?.split(" ").join("-") + "-" + new Date().getTime() * Math.ceil(Math.random() * 6);
+    };
+    next();
+});
 
 const Category = mongoose.model("Category", categorySchema);
 

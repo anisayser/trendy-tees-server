@@ -16,6 +16,12 @@ module.exports.getProductByIdServices = async (id) => {
     return product;
 }
 
+module.exports.getProductsBySearchServices = async (searchText) => {
+    // await Product.createIndexes({ title: "text", categories: "text" });
+    const products = await Product.find({ $text: { $search: searchText } });
+    return products;
+}
+
 module.exports.updateProductByIdServices = async (id, data) => {
     const result = await Product.updateOne({ _id: id }, data);
     return result;

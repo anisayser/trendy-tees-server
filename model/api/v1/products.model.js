@@ -15,10 +15,17 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: [true, "Product Price is required."]
     },
-    categories: {
-        type: Array,
-        required: [true, "Product category is required."],
-    },
+    categories: [{
+        objectId: false,
+        title: {
+            type: String,
+            required: [true, "Category Title is required."]
+        },
+        slug: {
+            type: String,
+            required: [true, "Category Id is required."]
+        }
+    }],
     tags: {
         type: Array,
         required: [true, "Product tags is required."],
@@ -48,18 +55,20 @@ const productSchema = mongoose.Schema({
         type: Array,
         required: [true, "Product Colors is required."]
     },
-    ratings: {
-        type: Array,
-    },
-    reviews: {
-        type: Array
-    },
+    // ratings: {
+    //     type: Array,
+    // },
+    // reviews: {
+    //     type: Array
+    // },
     image: {
         type: String,
         trim: true,
         required: [true, "Product Image is required"]
     }
 }, { timestamps: true });
+
+// productSchema.index({ title: "text", categories: "text" });
 
 productSchema.pre("save", function (next) {
     if (this.stock === 0) {
@@ -70,6 +79,7 @@ productSchema.pre("save", function (next) {
 
 //PRODUCT MODEL
 const Product = mongoose.model("Product", productSchema);
+// Product.createIndexes();
 
 module.exports = Product;
 
@@ -78,7 +88,7 @@ module.exports = Product;
     {
         title: "Diamond Halo Stud Eget",
         price: 10,
-        categories: ["Men", "Home & Living", "Youth & Baby"],
+        categories:[{title: "Men", slug: "men-3355469281582"}, {title: "Home & Living", slug:"home-&-living-1677734705106"}, {title: "Youth & Baby", slug:"youth-&-baby-6710938911184"}],
         tags: ["L", "M", "XL", "XXL", "Red", "Green", "Blue", "Men"],
         stock: 30,
         status: "in-stock",
@@ -93,7 +103,7 @@ module.exports = Product;
     {
         title: "Diamond Halo Stud Cum",
         price: 5,
-        categories: ["Phone Case", "Youth & Baby"],
+        categories:[{title: "Phone Case", slug: "phone-case-10066408105146"}, {title: "Youth & Baby", slug:"youth-&-baby-6710938911184"}],
         tags: ["Creative"],
         stock: 150,
         status: "in-stock",
@@ -108,7 +118,7 @@ module.exports = Product;
     {
         title: "Diamond Halo Stud Dolor",
         price: 9,
-        categories: ["Men", "Home & Living"],
+        categories:[{title: "Men", slug: "men-3355469281582"}, {title: "Home & Living", slug:"home-&-living-1677734705106"}, {title: "Pillow Case", slug:"pillow-case-8388673765110"}],
         tags: ["XL", "XXL", "White", "Green", "Black", "Men"],
         stock: 90,
         status: "in-stock",
@@ -123,7 +133,7 @@ module.exports = Product;
     {
         title: "Diamond Halo Stud Donec",
         price: 150,
-        categories: ["Women", "Youth & Baby"],
+        categories:[{title: "Women", slug: "women-5033203978695"}, {title: "Youth & Baby", slug:"youth-&-baby-6710938911184"}, {title: "Pillow Case", slug:"pillow-case-8388673765110"}],
         tags: ["M", "L", "XL", "White", "Blue", "Black", "Women"],
         stock: 400,
         status: "in-stock",
@@ -138,7 +148,7 @@ module.exports = Product;
     {
         title: "Liamond Halo Stud Aenean",
         price: 7,
-        categories: ["Phone Case", "Men", "Women"],
+        categories:[{title: "Phone Case", slug: "phone-case-10066408105146"}, {title: "Men", slug:"men-3355469281582"}, {title: "Women", slug:"women-5033203978695"}],
         tags: ["Black", "L"],
         stock: 300,
         status: "in-stock",
@@ -153,7 +163,7 @@ module.exports = Product;
     {
         title: "Kiamond Halo Stud Cum",
         price: 13,
-        categories: ["Women"],
+        categories:[{title: "Women", slug: "women-5033203978695"}],
         tags: ["Women", "M", "L", "XL", "XXL", "Black", "White"],
         stock: 300,
         status: "in-stock",
@@ -168,7 +178,7 @@ module.exports = Product;
     {
         title: "Hiamond Halo Stud Cum",
         price: 15,
-        categories: ["Women", "Youth & Baby"],
+        categories:[{title: "Women", slug: "women-5033203978695"}, {title: "Youth & Baby", slug:"youth-&-baby-6710938911184"}],
         tags: ["Women", "M", "L", "XL", "XXL", "Black", "Red"],
         stock: 0,
         status: "in-stock",
@@ -183,7 +193,7 @@ module.exports = Product;
     {
         title: "Diamond Halo Stud Ridicu",
         price: 3,
-        categories: ["Women", "Youth & Baby", "Home & Living"],
+        categories:[{title: "Women", slug: "women-5033203978695"}, {title: "Youth & Baby", slug:"youth-&-baby-6710938911184"}, {title: "Home & Living", slug:"home-&-living-1677734705106"}],
         tags: ["Women", "M", "L", "Black", "White", "Creative"],
         stock: 1000,
         status: "in-stock",
@@ -198,7 +208,7 @@ module.exports = Product;
     {
         title: "Qiamond Halo Stud Aenean",
         price: 20,
-        categories: ["Men", "Home & Living"],
+        categories:[{title: "Home & Living", slug:"home-&-living-1677734705106"}, {title: "Men", slug: "men-3355469281582"}],
         tags: ["L", "M", "XL", "XXL", "Green", "Blue", "Men"],
         stock: 0,
         status: "in-stock",
@@ -213,7 +223,7 @@ module.exports = Product;
     {
         title: "Diamond Halo Stud Ligula",
         price: 25,
-        categories: ["Women", "Youth & Baby", "Home & Living"],
+        categories:[{title: "Youth & Baby", slug:"youth-&-baby-6710938911184"}, {title: "Women", slug: "women-5033203978695"}, {title: "Home & Living", slug:"home-&-living-1677734705106"}],
         tags: ["Women", "M", "L", "Red", "Creative"],
         stock: 140,
         status: "in-stock",

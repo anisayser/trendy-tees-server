@@ -1,4 +1,4 @@
-const { getCartProductsByEmailServices, addToCartServices, deleteCartProductByIdServices, updateCartServices } = require("../../../services/api/v1/cart.services");
+const { getCartProductsByEmailServices, addToCartServices, deleteCartProductByIdServices, updateCartServices, deleteAllCartProductsServices } = require("../../../services/api/v1/cart.services");
 
 
 module.exports.getCartProductsByEmail = async (req, res) => {
@@ -64,6 +64,24 @@ module.exports.deleteCartProductById = async (req, res) => {
         res.status(400).json({
             status: "Failed",
             message: "Failed to delete the Cart Product.",
+            error: error.message
+        })
+    }
+}
+
+module.exports.deleteAllCartProducts = async (req, res) => {
+    try {
+        // console.log(req.params.id);
+        const result = await deleteAllCartProductsServices(req.query.email);
+        res.status(200).json({
+            status: "Success",
+            message: "Successfuly Deleted the Products from the cart.",
+            data: result
+        })
+    } catch (error) {
+        res.status(400).json({
+            status: "Failed",
+            message: "Failed to delete the Cart Products.",
             error: error.message
         })
     }

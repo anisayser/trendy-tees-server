@@ -6,6 +6,8 @@ const routes = express.Router();
 const cartControllers = require("../../../controllers/api/v1/cart.controllers");
 
 //routes
+routes.route("/delete").delete(cartControllers.deleteAllCartProducts);
+
 routes.route("/").get(cartControllers.getCartProductsByEmail).post(cartControllers.addToCart);
 
 routes.route("/:id").delete(cartControllers.deleteCartProductById).put(cartControllers.updateCart);
